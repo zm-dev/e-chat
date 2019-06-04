@@ -3,7 +3,25 @@
   <head>
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="theme-color" content="#000000" />
+    <meta name="format-detection" content="telephone=no"/>
+    <!-- uc强制竖屏 -->
+    <meta name="screen-orientation" content="portrait"/>
+    <!-- UC强制全屏 -->
+    <meta name="full-screen" content="yes"/>
+    <!-- UC应用模式 -->
+    <meta name="browsermode" content="application"/>
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <!-- QQ强制全屏 -->
+    <meta name="x5-fullscreen" content="true"/>
+    <!-- QQ应用模式 -->
+    <meta name="x5-page-mode" content="app"/>
     <meta name="theme-color" content="#000000" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -19,11 +37,69 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>EChat</title>
+    <style>
+      .loading{
+        position: fixed;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        overflow: hidden;
+        text-align: center;
+        z-index: 302;
+        height: 80px;
+        width: 80px;
+      }
+      .loading > img{
+        height: 100%;
+        width: 100%;
+        border-radius: 6px;
+        filter: grayscale(1);
+        opacity: .4;
+        transform-origin: center bottom;
+        animation-name: shake-hard;
+        animation-duration: 1000ms;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+        animation-delay: 300ms;
+        animation-play-state: running;
+      }
+      @keyframes shake-hard {
+        0% {
+          transform: rotate(0deg);
+        }
+        40% {
+          transform: rotate(0deg);
+        }
+        50% {
+          transform: rotate(10deg);
+        }
+        60% {
+          transform: rotate(-10deg);
+        }
+        70% {
+          transform: rotate(10deg);
+        }
+        80% {
+          transform: rotate(-10deg);
+        }
+        90% {
+          transform: rotate(10deg);
+        }
+        100% {
+          transform: rotate(0deg);
+        }
+      }
+
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="root">
+      <div class="loading" aria-label="载入中……">
+        <img src="./logo.jpg" alt="">
+      </div>
+    </div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

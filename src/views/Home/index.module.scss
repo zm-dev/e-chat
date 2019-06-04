@@ -1,0 +1,9 @@
+.home {
+  div {
+    font-size: 40px;
+  }
+}
+
+:global(.dplayer-icon.dplayer-full-icon) {
+  display: none !important;
+}

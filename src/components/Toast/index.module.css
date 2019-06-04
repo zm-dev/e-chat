@@ -1,0 +1,92 @@
+.toast_wrapper {
+  padding: 15px 20px;
+  max-width: 60%;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  top: 50% !important;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999999;
+  animation-name: show;
+  animation-play-state: running;
+}
+
+.toast_wrapper > p {
+  color: #fff;
+  font-size: 15px;
+  line-height: 1.3;
+}
+.icon_wrapper {
+  text-align: center;
+  margin-bottom: 10px;
+  padding-top: 5px;
+}
+.icon_wrapper > img {
+  height: 35px;
+  animation: iconRotate 0.7s linear infinite;
+}
+
+:global(.toast-fade-leave),
+:global(.toast-fade-enter),
+:global(.toast-fade-leave) .toast_wrapper,
+:global(.toast-fade-enter) .toast_wrapper {
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+  animation-timing-function: ease-out;
+  animation-play-state: paused;
+}
+:global(.toast-fade-leave) .toast_wrapper {
+  animation-duration: 0.3s;
+  animation-timing-function: ease-in;
+}
+:global(.toast-fade-enter) .toast_wrapper {
+  transform: translate(-50%, 10px);
+}
+
+:global(.toast-fade-enter.toast-fade-enter-active) .toast_wrapper {
+  animation-name: show;
+  animation-play-state: running;
+}
+:global(.toast-fade-leave.toast-fade-leave-active) .toast_wrapper {
+  animation-name: hide;
+  animation-play-state: running;
+}
+
+@keyframes iconRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes show {
+  0% {
+    transform: translate(-50%, 10px);
+    opacity: 0;
+  }
+  50% {
+    transform: translate(-50%, -60%);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes hide {
+  0% {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -60%);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -10px);
+    opacity: 0;
+  }
+}
