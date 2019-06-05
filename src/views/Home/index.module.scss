@@ -1,9 +1,74 @@
 .home {
-  div {
-    font-size: 40px;
+  background-color: #fff;
+  > .header {
+    height: 50px;
+    background-image: linear-gradient(120deg, #209cff 0%, #68e0cf 100%);
+    width: 100%;
+    padding: 0 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    > img {
+      position: absolute;
+      left: 10px;
+      top: 9px;
+      width: 32px;
+      height: 32px;
+      border-radius: 100%;
+    }
+    > .title {
+      color: #fff;
+      display: block;
+      width: 100%;
+      line-height: 50px;
+      text-align: center;
+    }
+  }
+  > .content {
+    padding: 50px 0;
+  }
+  > .footer {
+    padding: 5px 0;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #f1f3f5;
+    display: flex;
+    border-radius: 10px 10px 0 0;
+    > .tabbar_item {
+      width: 50%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      text-align: center;
+      flex-direction: column;
+      i {
+        font-size: 24px;
+        color: #999;
+      }
+      p {
+        margin: 0;
+        font-size: 12px;
+        transform: scale(0.8);
+      }
+    }
+    > .active {
+      i {
+        color: #1296db;
+      }
+    }
   }
 }
 
-:global(.dplayer-icon.dplayer-full-icon) {
-  display: none !important;
+@media screen and (min-width: 680px) {
+  .home > .header,
+  .home > .footer {
+    width: 680px !important;
+    margin: 0 auto;
+  }
 }

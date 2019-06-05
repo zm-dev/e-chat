@@ -1,5 +1,5 @@
 const path = require('path');
-const { addBabelPlugins, useEslintRc, override, addWebpackAlias } = require('customize-cra');
+const { useEslintRc, override, addWebpackAlias } = require('customize-cra');
 
 const addSvgInlineLoader = () => config => {
   const loaders = config.module.rules.find(rule => Array.isArray(rule.oneOf)).oneOf;
