@@ -1,2 +1,5 @@
 .list {
+  & > div:nth-child(even) {
+    background: #fbfbfb;
+  }
 }

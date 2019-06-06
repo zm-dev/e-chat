@@ -1,0 +1,7 @@
+.contact {
+  & > .contact_content {
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 10px;
+  }
+}
