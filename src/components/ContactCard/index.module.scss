@@ -1,0 +1,58 @@
+.contact_card {
+  flex-grow: 1;
+  padding: 20px 10px;
+  border-radius: 5px;
+  margin: 8px 10px;
+  transform: scale(0);
+  animation: scale_list 0.7s forwards ease-out;
+  & > .info {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    & > .info_avatar {
+      width: 66px;
+      height: 66px;
+    }
+    & > .info_text {
+      flex-grow: 1;
+      margin-left: 10px;
+      & > p{
+        display: flex;
+        font-size: 12px;
+        & > i {
+          margin-left: 5px;
+        }
+      }
+      & > .nick_name {
+        font-size: 18px;
+      }
+      & > .group {
+        background: red;
+        border-radius: 10px;
+        padding: 5px 8px;
+        transform: scale(0.9);
+        display: inline-block;
+        border-top-left-radius: 0;
+      }
+      & > .profile {
+        color: #aaa;
+        margin: 5px 0;
+      }
+    }
+  }
+}
+
+@keyframes scale_list {
+  25% {
+    transform: scale(1.1);
+    background: #fff;
+  } 50% {
+    transform: scale(0.8);
+  } 75% {
+    background: rgba(32, 160, 255, 0.03);
+  } 100% {
+    transform: scale(1);
+    background: rgba(32, 160, 255, 0.03);
+  }
+}

@@ -1,0 +1,86 @@
+.me {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 30px;
+  background: url(../../asstes/images/me_background.png);
+  background-position: bottom right;
+  background-size: 100%;
+  height: 100%;
+  & > .header {
+    display: flex;
+    justify-content: space-between;
+    & > span  {
+      font-size: 20px;
+    }
+    & > i {
+      font-size: 30px;
+    }
+  }
+  & > .me_avatar {
+    width: 120px;
+    margin: 20px 0;
+    height: 120px;
+  }
+  & > .me_info {
+    margin: 30px 10px;
+    & > .nick_name {
+      font-size: 30px;
+      color: #2c2c2c;
+      font-weight: 400;
+      & > span {
+        font-size: 18px;
+        font-weight: 400;
+        padding: 5px 10px;
+        border-radius: 15px;
+        border-top-left-radius: 0;
+        margin-left: 5px;
+      }
+    }
+    & > .company {
+      margin: 20px 0;
+      font-size: 18px;
+      font-weight: 400;
+      color: #444;
+    }
+    & > .profile {
+      color: #888;
+      font-size: 16px;
+    }
+  }
+  & > p {
+    background-image: linear-gradient(120deg, #209cff 0%, #68e0cf 100%);
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    margin-top: 20px;
+    color: #fff;
+  }
+  & > p:last-child {
+      background: transparent;
+      color: rgb(61, 180, 224);
+      border: 1px solid rgb(61, 180, 224);
+  }
+}
+
+.edit {
+  display: flex;
+  background: #f5f5f5;
+  height: 100%;
+  flex-flow: column nowrap;
+  .edit_avatar {
+    width: 80%;
+    position: absolute;
+    right: 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .save_btn {
+    background: rgb(61, 180, 224);
+    margin: 30px 20px;
+    padding: 15px;
+    text-align: center;
+    color: #fff;
+    border-radius: 30px;
+  }
+}

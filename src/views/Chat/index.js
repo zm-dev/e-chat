@@ -19,7 +19,7 @@ export default class Chat extends React.PureComponent {
           <div
             className={styles.return}
             onClick={() => {
-              history.push('home');
+              history.goBack();
             }}
           >
             <i className="iconfont icon-jiantou" />
@@ -28,17 +28,9 @@ export default class Chat extends React.PureComponent {
           <p className={styles.title}>与 奶奶姑 聊天中...</p>
         </div>
         <div className={styles.content} style={{ paddingBottom: showEmoji ? '300px' : '50px' }}>
-          <ChatItem isSend />
-          <ChatItem />
-          <ChatItem isSend />
-          <ChatItem />
-          <ChatItem />
-          <ChatItem isSend />
-          <ChatItem isSend />
-          <ChatItem />
-          <ChatItem />
-          <ChatItem isSend />
-          <ChatItem isSend />
+          {new Array(10).fill(0).map((_, index) => (
+            <ChatItem key={index} isSend={index % 2 === 0} />
+          ))}
         </div>
         <div
           className={styles.footer}

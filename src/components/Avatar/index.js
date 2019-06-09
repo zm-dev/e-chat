@@ -2,9 +2,9 @@ import React from 'react';
 import styles from './index.module.scss';
 
 export default props => {
-  const { title, src, textSize = 20, textColor = '#f56a00', bgColor = '#fde3cf' } = props;
+  const { title, src, textSize = 20, textColor = '#f56a00', bgColor = '#fde3cf', radius = '50%' } = props;
   return (
-    <div className={styles.avatar} title={title}>
+    <div style={{borderRadius: radius}} className={styles.avatar} title={title}>
       {src ? (
         <img src={src} alt={title} />
       ) : (
