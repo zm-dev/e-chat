@@ -1,8 +1,13 @@
 import http from '@/common/http';
 
 export default {
-  // 获取分享信息
-  shareInfo() {
-    return http.get('me/shareInfo');
+  // 登陆
+  signIn(userinfo) {
+    return http.post('/auth/login', userinfo);
+  },
+
+  // 注册
+  signUp(userinfo) {
+    return http.post('/auth/register', userinfo);
   },
 };

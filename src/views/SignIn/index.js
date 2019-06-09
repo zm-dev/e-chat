@@ -1,7 +1,35 @@
 import React from 'react';
+import commonApi from '@/serverApis/common';
+import Toast from '@/components/Toast';
 import styles from './index.module.scss';
 
 export default class SignIn extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      account: '',
+      password: '',
+    };
+  }
+
+  submit = () => {
+    const { account, password } = this.state;
+    const { history } = this.props;
+    if (account === '' || password === '') {
+      Toast.info('请输入账号或密码！');
+    } else {
+      commonApi
+        .signIn({ account, password })
+        .then(() => {
+          Toast.info('登录成功！');
+          history.push('home');
+        })
+        .catch(error => {
+          Toast.info(error.response.data.message);
+        });
+    }
+  };
+
   render() {
     const { history } = this.props;
     return (
@@ -14,12 +42,28 @@ export default class SignIn extends React.PureComponent {
           </div>
           <div className={styles.login_form}>
             <div className={styles.input_style}>
-              <input type="text" placeholder="请输入账号" />
+              <input
+                type="text"
+                onInput={e => {
+                  this.setState({
+                    account: e.target.value,
+                  });
+                }}
+                placeholder="请输入账号"
+              />
             </div>
             <div className={styles.input_style}>
-              <input type="password" placeholder="请输入密码" />
+              <input
+                type="password"
+                onInput={e => {
+                  this.setState({
+                    password: e.target.value,
+                  });
+                }}
+                placeholder="请输入密码"
+              />
             </div>
-            <button type="button">
+            <button onClick={this.submit} type="button">
               <img src={require('../../asstes/icons/submit.png')} alt="" />
             </button>
           </div>

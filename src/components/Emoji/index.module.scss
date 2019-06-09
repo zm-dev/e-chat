@@ -1,0 +1,21 @@
+.emoji {
+  padding: 5px 0;
+  > .item_content {
+    > .title {
+      font-size: 12px;
+      color: #999;
+      padding-left: 10px;
+    }
+    > .content {
+      margin: 5px 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      > span {
+        display: inline-block;
+        padding: 6px 10px;
+        font-size: 20px;
+      }
+    }
+  }
+}

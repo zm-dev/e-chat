@@ -1,10 +1,18 @@
 import React from 'react';
 import ChatItem from '@/components/ChatItem';
+import Emoji from '@/components/Emoji';
 import styles from './index.module.scss';
 
 export default class Chat extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showEmoji: false,
+    };
+  }
   render() {
     const { history } = this.props;
+    const { showEmoji } = this.state;
     return (
       <div className={styles.chat}>
         <div className={styles.header}>
@@ -19,7 +27,7 @@ export default class Chat extends React.PureComponent {
           </div>
           <p className={styles.title}>与 奶奶姑 聊天中...</p>
         </div>
-        <div className={styles.content}>
+        <div className={styles.content} style={{ paddingBottom: showEmoji ? '300px' : '50px' }}>
           <ChatItem isSend />
           <ChatItem />
           <ChatItem isSend />
@@ -32,11 +40,27 @@ export default class Chat extends React.PureComponent {
           <ChatItem isSend />
           <ChatItem isSend />
         </div>
-        <div className={styles.footer}>
-          <input type="text" />
-          <div className={styles.operation}>
-            <i className="iconfont icon-xiaolian" />
-            <button type="button">发送</button>
+        <div
+          className={styles.footer}
+          style={{ transform: `translateY(${!showEmoji ? '250' : '0'}px)` }}
+        >
+          <div className={styles.input_box}>
+            <input type="text" />
+            <div className={styles.operation}>
+              <i
+                onClick={() => {
+                  this.setState({
+                    showEmoji: !showEmoji,
+                  });
+                }}
+                className="iconfont icon-xiaolian"
+                style={{ color: !showEmoji ? '#6b7372' : '#4facfe' }}
+              />
+              <button type="button">发送</button>
+            </div>
+          </div>
+          <div className={styles.emoji}>
+            <Emoji />
           </div>
         </div>
       </div>

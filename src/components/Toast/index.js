@@ -60,7 +60,7 @@ function notice(content, duration, onClose, closable) {
 export default {
   loading: text => {
     const key = notice(
-      <Toast text={text} icon={<Icon icon={require('../../assets/icons/icon_loading.png')} />} />,
+      <Toast text={text} icon={<Icon icon={require('../../asstes/icons/icon_loading.png')} />} />,
       0,
       () => {},
       false
