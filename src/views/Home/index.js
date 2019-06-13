@@ -1,5 +1,7 @@
 import React from 'react';
 import { Route, Switch, Redirect, NavLink } from 'react-router-dom';
+import {MeContext} from '@/index';
+import Avatar from '@/components/Avatar';
 import styles from './index.module.scss';
 
 const tab_bottom = [
@@ -40,7 +42,7 @@ export default class Home extends React.PureComponent {
   };
 
   testRoute(pathname) {
-    return tab_bottom.findIndex(tab => pathname.endsWith(tab.link));
+    return tab_bottom.findIndex(tab => pathname.includes(tab.link));
   }
 
   componentDidMount() {
@@ -69,11 +71,17 @@ export default class Home extends React.PureComponent {
             {tab_bottom[active].hasReturn ? (
               <i onClick={() => history.goBack()} className="iconfont icon-jiantou" />
             ) : (
-              <img
-                onClick={() => history.push('/home/me')}
-                src="http://p2.pstatp.com/large/1253/8577488335"
-                alt=""
-              />
+              <MeContext.Consumer>
+                {({me}) => <div onClick={() => history.push('/home/me')} style={{width: 25, height: 25}}>
+                  <Avatar
+                    textSize={13}
+                    src={me.avatar_url}
+                    title={me.nick_name}
+                    alt=""
+                  />
+                 </div>
+                }
+              </MeContext.Consumer>
             )}
             <span className={styles.title}>{tab_bottom[active]['title']}</span>
           </div>
@@ -88,7 +96,7 @@ export default class Home extends React.PureComponent {
           <Switch>
             <Route path={`${match.url}/chat_list`} component={require('../List').default} />
             <Route path={`${match.url}/contact_list`} component={require('../Contact').default} />
-            <Route path={`${match.url}/me`} component={require('../Me').default} />
+            <Route path={`${match.url}/me/:id?`} component={require('../Me').default} />
             <Route path={`${match.url}/edit_me`} component={require('../Me/edit').default} />
             <Redirect to={`${match.url}/chat_list`} />
           </Switch>
@@ -96,8 +104,7 @@ export default class Home extends React.PureComponent {
         {tab_bottom[active].hasFooter && (
           <div className={styles.footer}>
             {tab_bottom.map((tab, index) => {
-              if (tab.hasFooter) {
-                return (
+                return tab.hasFooter ? (
                   <NavLink
                     onClick={() => this.setState({ active: index })}
                     key={index}
@@ -108,9 +115,9 @@ export default class Home extends React.PureComponent {
                     <i className={['iconfont', tab.icon].join(' ')} />
                     <p>{tab.title}</p>
                   </NavLink>
-                );
+                ) : null;
               }
-            })}
+            )}
           </div>
         )}
       </div>

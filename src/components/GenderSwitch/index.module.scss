@@ -1,5 +1,10 @@
 .gender_switch {
   display: flex;
+  align-items: center;
+  & > span {
+    font-size: 14px;
+    color: #888;
+  }
   > i {
     font-size: 22px;
     margin-left: 10px;

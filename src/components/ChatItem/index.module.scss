@@ -5,7 +5,7 @@
   margin: 20px 0;
   display: flex;
   flex-direction: column;
-  > .header_img {
+  > .chatAvatar {
     height: 30px;
     width: 30px;
     border-radius: 100%;
@@ -37,7 +37,7 @@
 
 .right {
   float: right;
-  > .header_img {
+  > .chatAvatar {
     right: -5px !important;
     left: inherit;
   }

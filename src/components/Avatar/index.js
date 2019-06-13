@@ -6,7 +6,7 @@ export default props => {
   return (
     <div style={{borderRadius: radius}} className={styles.avatar} title={title}>
       {src ? (
-        <img src={src} alt={title} />
+        <div style={{height: '100%', background: `url(${src})`, backgroundSize: '100%', backgroundPosition: 'center'}} />
       ) : (
         <div
           className={styles.text}
