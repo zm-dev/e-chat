@@ -1,11 +1,16 @@
 import * as React from 'react';
 import styles from './index.module.scss';
 
-const gender_list = ['man', 'woman'];
+export const gender_map = {
+  '男': { icon: 'icon-icon-gender-man', color: '#20a0ff'},
+  '女': { icon: 'icon-icon-gender-woman', color: '#f50'},
+  '保密': { icon: 'icon-bianjibaomi', color: 'orange'}
+};
 export default ({active, onChange = () => {}}) => {
   return <div className={styles.gender_switch}>
+    <span>{active}</span>
     {
-      gender_list.map(gender => <i key={gender} onClick={() => onChange(gender)} style={{color: active === gender ? gender === 'man' ? '#20a0ff' : '#f50' : '#eee'}} className={`iconfont icon-icon-gender-${gender}`} />)
+      Object.keys(gender_map).map(key => <i key={key} onClick={() => onChange(key)} style={{color: active === key ? gender_map[key].color : '#eee'}} className={`iconfont ${gender_map[key].icon}`} />)
     }
     
   </div>

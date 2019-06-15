@@ -5,10 +5,10 @@ import styles from './index.module.scss';
 
 export default class ChatItem extends React.PureComponent {
   render() {
-    const { isSend = false, info, data } = this.props;
+    const { isSend = false, info, data, onClick = () => {} } = this.props;
     return (
       <div className={[styles.chat_item, isSend ? styles.right : ''].join(' ')}>
-        <div className={styles.header_img}>
+        <div onClick={onClick} className={styles.header_img}>
           <Avatar src={info.avatarUrl} alt={info.name} />
         </div>
         <span className={styles.time}>{formatChatDate(data.updated_at)}</span>

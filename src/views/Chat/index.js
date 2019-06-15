@@ -1,51 +1,32 @@
 import React from 'react';
 import ChatItem from '@/components/ChatItem';
 import Emoji from '@/components/Emoji';
-import chatApi from '@/serverApis/chat';
+// import chatApi from '@/serverApis/chat';
+import commonApis from '@/serverApis/common';
 import styles from './index.module.scss';
-
-export default class Chat extends React.PureComponent {
+import { RecordContext } from '@/index';
+class Chat extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       showEmoji: false,
-      recordList: [],
-      userDetail: {},
+      friend: {},
       page: 1,
-      size: 10,
-      user_id_b: Number(props.match.params.id), // 聊天者ID
-      sendVal: '',
+      size: 2,
     };
   }
-  componentDidMount() {
-    this.getRecord();
-    this.getUserDetail();
+
+  async componentDidMount() {
+    const { match, update, record } = this.props;
+    const { page, size } = this.state;
+    await update({ id: match.params.id, page, size });
+    const { data } = await commonApis.getUser(match.params.id);
+    this.setState({ friend: data });
   }
 
-  // 获取消息列表
-
-  getRecord = () => {
-    const { page, size, user_id_b } = this.state;
-    chatApi.record({ page, size, user_id_b }).then(res => {
-      this.setState({
-        recordList: res.data.records,
-      });
-    });
-  };
-
-  // 获取用户详情
-  getUserDetail = () => {
-    const { user_id_b } = this.state;
-    chatApi.userDetail(user_id_b).then(res => {
-      this.setState({
-        userDetail: res.data,
-      });
-    });
-  };
-
   render() {
-    const { history } = this.props;
-    const { showEmoji, recordList, user_id_b, userDetail, sendVal } = this.state;
+    const { history, record } = this.props;
+    const { showEmoji, friend } = this.state;
     return (
       <div className={styles.chat}>
         <div className={styles.header}>
@@ -58,43 +39,24 @@ export default class Chat extends React.PureComponent {
             <i className="iconfont icon-jiantou" />
             <span>返回</span>
           </div>
-          <p className={styles.title}>与 {userDetail.name} 聊天中...</p>
-          <i
-            onClick={() => {
-              history.push(`/home/me/${user_id_b}`);
-            }}
-            className={['iconfont', 'icon-iconyonghu', styles.user_icon].join(' ')}
-          />
+          <p className={styles.title}>与 {friend.nick_name} 聊天中...</p>
         </div>
         <div className={styles.content} style={{ paddingBottom: showEmoji ? '300px' : '50px' }}>
-          {recordList.map(item => (
-            <ChatItem
-              key={item.id}
-              data={item}
-              info={userDetail}
-              isSend={item.from_id === user_id_b ? true : false}
-            />
-          ))}
+          {record.records &&
+            record.records.map((_, index) => (
+              <ChatItem
+                onClick={() => history.push({ pathname: `/home/me/${friend.id}`, state: friend })}
+                key={index}
+                isSend={index % 2 === 0}
+              />
+            ))}
         </div>
         <div
           className={styles.footer}
           style={{ transform: `translateY(${!showEmoji ? '250' : '0'}px)` }}
         >
           <div className={styles.input_box}>
-            <input
-              type="text"
-              value={sendVal}
-              onChange={e => {
-                this.setState({
-                  sendVal: e.target.value,
-                });
-              }}
-              onFocus={() => {
-                this.setState({
-                  showEmoji: false,
-                });
-              }}
-            />
+            <input type="text" />
             <div className={styles.operation}>
               <i
                 onClick={() => {
@@ -109,16 +71,16 @@ export default class Chat extends React.PureComponent {
             </div>
           </div>
           <div className={styles.emoji}>
-            <Emoji
-              onSelect={emoji => {
-                this.setState({
-                  sendVal: sendVal + emoji,
-                });
-              }}
-            />
+            <Emoji />
           </div>
         </div>
       </div>
     );
   }
 }
+
+export default props => (
+  <RecordContext.Consumer>
+    {({ record, update }) => <Chat record={record} update={update} {...props} />}
+  </RecordContext.Consumer>
+);

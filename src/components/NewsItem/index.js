@@ -19,7 +19,7 @@ export default class NewsItem extends React.PureComponent {
           </div>
           <div className={styles.tips}>
             <span className={styles.time}>{timeAgo(new Date(data.last_message_send_time))}</span>
-            {data.not_read_msg_count !== 0 && <span className={styles.count}>10</span>}
+            {data.not_read_msg_count !== 0 && <span className={styles.count}>{data.not_read_msg_count}</span>}
           </div>
         </div>
       </div>

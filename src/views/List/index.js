@@ -1,5 +1,6 @@
 import React from 'react';
 import NewsItem from '@/components/NewsItem';
+import EmptyStatus from '@/components/EmptyStatus';
 import listApi from '@/serverApis/list';
 import styles from './index.module.scss';
 
@@ -16,7 +17,6 @@ export default class List extends React.PureComponent {
       this.setState({
         messageList: res.data,
       });
-      console.log(res.data);
     });
   }
 
@@ -25,18 +25,22 @@ export default class List extends React.PureComponent {
     const { messageList } = this.state;
     return (
       <div className={styles.list}>
-        {messageList.map((item, index) => {
-          return (
-            <div
-              key={index}
-              onClick={() => {
-                history.push(`/chat/${item.user_id}`);
-              }}
-            >
-              <NewsItem data={item} />
-            </div>
-          );
-        })}
+        {messageList.length > 0 ? (
+          messageList.map((item, index) => {
+            return (
+              <div
+                key={index}
+                onClick={() => {
+                  history.push(`/chat/${item.user_id}`);
+                }}
+              >
+                <NewsItem data={item} />
+              </div>
+            );
+          })
+        ) : (
+          <EmptyStatus info="暂无历史聊天" />
+        )}
       </div>
     );
   }
