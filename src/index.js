@@ -11,7 +11,7 @@ ReactDOM.render(
       <Router history={history}>
         <Switch>
           {/* 首页 */}
-          <Route path="/chat" component={require('./views/Chat').default} />
+          <Route path="/chat/:id" component={require('./views/Chat').default} />
           <Route path="/signin" component={require('./views/SignIn').default} />
           <Route path="/signup" component={require('./views/SignUp').default} />
           <Route path="/home" component={require('./views/Home').default} />

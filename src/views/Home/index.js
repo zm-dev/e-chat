@@ -40,13 +40,14 @@ export default class Home extends React.PureComponent {
   };
 
   testRoute(pathname) {
-    return tab_bottom.findIndex(tab => pathname.endsWith(tab.link));
+    return tab_bottom.findIndex(tab => pathname.includes(tab.link));
   }
 
   componentDidMount() {
     const {
       location: { pathname },
     } = this.props;
+
     const active = this.testRoute(pathname);
     this.setState({ active });
   }
@@ -88,7 +89,7 @@ export default class Home extends React.PureComponent {
           <Switch>
             <Route path={`${match.url}/chat_list`} component={require('../List').default} />
             <Route path={`${match.url}/contact_list`} component={require('../Contact').default} />
-            <Route path={`${match.url}/me`} component={require('../Me').default} />
+            <Route path={`${match.url}/me/:id?`} component={require('../Me').default} />
             <Route path={`${match.url}/edit_me`} component={require('../Me/edit').default} />
             <Redirect to={`${match.url}/chat_list`} />
           </Switch>
@@ -110,6 +111,7 @@ export default class Home extends React.PureComponent {
                   </NavLink>
                 );
               }
+              return false;
             })}
           </div>
         )}

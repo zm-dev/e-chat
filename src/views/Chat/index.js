@@ -1,6 +1,7 @@
 import React from 'react';
 import ChatItem from '@/components/ChatItem';
 import Emoji from '@/components/Emoji';
+import chatApi from '@/serverApis/chat';
 import styles from './index.module.scss';
 
 export default class Chat extends React.PureComponent {
@@ -8,11 +9,43 @@ export default class Chat extends React.PureComponent {
     super(props);
     this.state = {
       showEmoji: false,
+      recordList: [],
+      userDetail: {},
+      page: 1,
+      size: 10,
+      user_id_b: Number(props.match.params.id), // 聊天者ID
+      sendVal: '',
     };
   }
+  componentDidMount() {
+    this.getRecord();
+    this.getUserDetail();
+  }
+
+  // 获取消息列表
+
+  getRecord = () => {
+    const { page, size, user_id_b } = this.state;
+    chatApi.record({ page, size, user_id_b }).then(res => {
+      this.setState({
+        recordList: res.data.records,
+      });
+    });
+  };
+
+  // 获取用户详情
+  getUserDetail = () => {
+    const { user_id_b } = this.state;
+    chatApi.userDetail(user_id_b).then(res => {
+      this.setState({
+        userDetail: res.data,
+      });
+    });
+  };
+
   render() {
     const { history } = this.props;
-    const { showEmoji } = this.state;
+    const { showEmoji, recordList, user_id_b, userDetail, sendVal } = this.state;
     return (
       <div className={styles.chat}>
         <div className={styles.header}>
@@ -25,11 +58,22 @@ export default class Chat extends React.PureComponent {
             <i className="iconfont icon-jiantou" />
             <span>返回</span>
           </div>
-          <p className={styles.title}>与 奶奶姑 聊天中...</p>
+          <p className={styles.title}>与 {userDetail.name} 聊天中...</p>
+          <i
+            onClick={() => {
+              history.push(`/home/me/${user_id_b}`);
+            }}
+            className={['iconfont', 'icon-iconyonghu', styles.user_icon].join(' ')}
+          />
         </div>
         <div className={styles.content} style={{ paddingBottom: showEmoji ? '300px' : '50px' }}>
-          {new Array(10).fill(0).map((_, index) => (
-            <ChatItem key={index} isSend={index % 2 === 0} />
+          {recordList.map(item => (
+            <ChatItem
+              key={item.id}
+              data={item}
+              info={userDetail}
+              isSend={item.from_id === user_id_b ? true : false}
+            />
           ))}
         </div>
         <div
@@ -37,7 +81,20 @@ export default class Chat extends React.PureComponent {
           style={{ transform: `translateY(${!showEmoji ? '250' : '0'}px)` }}
         >
           <div className={styles.input_box}>
-            <input type="text" />
+            <input
+              type="text"
+              value={sendVal}
+              onChange={e => {
+                this.setState({
+                  sendVal: e.target.value,
+                });
+              }}
+              onFocus={() => {
+                this.setState({
+                  showEmoji: false,
+                });
+              }}
+            />
             <div className={styles.operation}>
               <i
                 onClick={() => {
@@ -52,7 +109,13 @@ export default class Chat extends React.PureComponent {
             </div>
           </div>
           <div className={styles.emoji}>
-            <Emoji />
+            <Emoji
+              onSelect={emoji => {
+                this.setState({
+                  sendVal: sendVal + emoji,
+                });
+              }}
+            />
           </div>
         </div>
       </div>

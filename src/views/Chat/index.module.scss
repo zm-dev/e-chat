@@ -35,6 +35,14 @@
       text-align: center;
       margin: 0;
     }
+    > .user_icon {
+      position: absolute;
+      right: 5px;
+      font-size: 18px;
+      color: #fff;
+      padding: 10px;
+      top: 1px;
+    }
   }
   > .content {
     padding: 44px 15px 50px;
@@ -59,7 +67,7 @@
         border: none;
         height: 35px;
         border-radius: 100px;
-        padding-left: 15px;
+        padding: 0 10px;
         outline: none;
         width: 100%;
       }

@@ -30,7 +30,7 @@ export default class List extends React.PureComponent {
             <div
               key={index}
               onClick={() => {
-                history.push('/chat');
+                history.push(`/chat/${item.user_id}`);
               }}
             >
               <NewsItem data={item} />

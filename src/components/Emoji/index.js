@@ -4,6 +4,7 @@ import styles from './index.module.scss';
 
 export default class Emoji extends React.PureComponent {
   render() {
+    const { onSelect } = this.props;
     return (
       <div className={styles.emoji}>
         {EmojiData.map((item, itemIndex) => {
@@ -12,7 +13,11 @@ export default class Emoji extends React.PureComponent {
               <span className={styles.title}>{item.title}</span>
               <div className={styles.content}>
                 {item.content.map((itemEmoji, index) => {
-                  return <span key={index}>{itemEmoji}</span>;
+                  return (
+                    <span onClick={() => onSelect(itemEmoji)} key={index}>
+                      {itemEmoji}
+                    </span>
+                  );
                 })}
               </div>
             </div>

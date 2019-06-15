@@ -7,6 +7,9 @@ export function formatDateTime(date) {
 export function formatDate(date) {
   return moment(new Date(date)).format('YYYY-MM-DD');
 }
+export function formatChatDate(date) {
+  return moment(new Date(date)).format('MM-DD HH:mm:ss');
+}
 
 export function formatTime(date) {
   return moment(new Date(date)).format('MM-DD');
