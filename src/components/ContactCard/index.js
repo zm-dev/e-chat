@@ -19,7 +19,7 @@ const genderMap = {
 
 export default ({data, color_map, index, onClick = () => {}}) => {
   return (
-    <div onClick={() => onClick()} style={{animationDelay: index <= 20 && `${index * 0.1}s`}} className={styles.contact_card}>
+    <div onClick={() => onClick()} style={{animationDelay: index <= 20 && `${index * 0.05}s`}} className={styles.contact_card}>
       <div className={styles.info}>
         <div className={styles.info_avatar}>
           <Avatar radius='5px' src={data.avatar_url} title={data.nick_name} />

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch, Redirect, NavLink } from 'react-router-dom';
-import { MeContext } from '@/index';
+import { MeContext } from '../main';
 import Avatar from '@/components/Avatar';
 import styles from './index.module.scss';
 
@@ -74,7 +74,7 @@ export default class Home extends React.PureComponent {
             ) : (
               <MeContext.Consumer>
                 {({ me }) => (
-                  <div onClick={() => history.push('/home/me')} style={{ width: 25, height: 25 }}>
+                  <div onClick={() => history.push('/main/home/me')} style={{ width: 25, height: 25 }}>
                     <Avatar textSize={13} src={me.avatar_url} title={me.nick_name} alt="" />
                   </div>
                 )}

@@ -2,7 +2,8 @@ import * as React from 'react';
 import ContactTab from '@/components/ContactTab';
 import ContactCard from '@/components/ContactCard';
 import styles from './index.module.scss';
-import {TeacherContext} from '@/index';
+import {TeacherContext} from '../main';
+import Loading from '@/components/Loading';
 export const color_map = {
   '校友': {
     color: '#209cff',
@@ -27,10 +28,12 @@ export default ({history}) => {
         setActive(item);
       }} color_map={color_map} />
       <TeacherContext.Consumer>
-        {teacherMap =>
-          <div className={styles.contact_content}>
-            {teacherMap[active] && teacherMap[active].map((item, index) => <ContactCard onClick={() => history.push(`/chat/${item.id}`)} index={index} color_map={color_map} key={index} data={item} />)}
-          </div>
+        {({teacherMap, teacherLoading}) =>
+          <Loading loading={teacherLoading} info="正在加载数据">
+            <div className={styles.contact_content}>
+              {Object.keys(teacherMap[active]).length > 0 && Object.keys(teacherMap[active]).map(key => <ContactCard onClick={() => history.push(`/main/chat/${key}`)} index={key} color_map={color_map} key={key} data={teacherMap[active][key]} />)}
+            </div>
+          </Loading>
         }
         
       </TeacherContext.Consumer>

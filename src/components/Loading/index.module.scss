@@ -1,0 +1,38 @@
+.loading {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  & > .loadingContainer {
+    position: absolute;
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.7);
+    z-index: 100;
+    right: 0;
+    top: 0;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    line-height: 1.8rem;
+  }
+  & > .loadingContainer > span {
+    transform-origin: center;
+    animation: rotateLoading 2s infinite linear;
+  }
+  .loadingTip {
+    font-size: 12px;
+    color: #444;
+  }
+}
+
+@keyframes rotateLoading {
+  from {
+    transform: rotateZ(0);
+    color: #20a0ff;
+  } to {
+    transform: rotateZ(1turn);
+    color: #6c6;
+  }
+}

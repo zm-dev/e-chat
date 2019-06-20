@@ -10,4 +10,11 @@ export default {
   userDetail(id) {
     return http.get(`/user/${id}`);
   },
+
+  // 设置消息为已读
+  setMsgRead (ids) {
+    return http.put('/record/batch_set_read', {
+      ids: ids
+    })
+  }
 };

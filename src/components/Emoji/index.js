@@ -4,7 +4,7 @@ import styles from './index.module.scss';
 
 export default class Emoji extends React.PureComponent {
   render() {
-    const { onSelect } = this.props;
+    const { onSelect = () => {} } = this.props;
     return (
       <div className={styles.emoji}>
         {EmojiData.map((item, itemIndex) => {

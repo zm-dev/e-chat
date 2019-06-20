@@ -1,5 +1,15 @@
 .chat {
   background-color: #f1f3f5;
+  .chatTips {
+    color: #aaa;
+    display: flex;
+    justify-content: center;
+    height: 20px;
+    font-size: 12px;
+    margin: 5px 0;
+    align-items: center;
+    border-radius: 20px;
+  }
   > .header {
     height: 44px;
     background-image: linear-gradient(120deg, #209cff 0%, #68e0cf 100%);

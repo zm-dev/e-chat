@@ -10,8 +10,8 @@ export default {
     return http.get('/teacher_list');
   },
   // 获取聊天记录
-  getRecordList (id, params) {
-    return http.get('record', {
+  getRecordList (params) {
+    return http.get('/record', {
       params
     });
   }
