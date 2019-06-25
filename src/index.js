@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import history from '@/common/history';
 import 'normalize.css';
-import styles from './index.module.scss';
 
 const App = () => <Router history={history}>
   <Switch>

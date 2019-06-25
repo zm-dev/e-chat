@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import history from '@/common/history';
 import 'normalize.css';
@@ -65,15 +64,16 @@ export default class Main extends React.PureComponent {
   getRecordListFunc = async (params) => {
     const {record} = this.state;
     const { data } = await listApis.getRecordList(params);
-    const reverseRecords = data.records.reverse();
+    
     let newRecords = record.records || [];
+    let reverseRecords = data.records.reverse();
+    
     if (params.page !== 1) {
-      data.records.reverse().forEach(item => {
-        newRecords.unshift(item);
-      })
+      newRecords.unshift(...reverseRecords);
     } else {
       newRecords = reverseRecords;
     }
+    
     this.setState({record: {...data, records: newRecords}});
   };
 
@@ -105,17 +105,9 @@ export default class Main extends React.PureComponent {
   }
 
   // 设置消息状态
-  setMsgStatus = async () => {
-    const {record} = this.state;
-    const ids = [];
-    record.records.forEach(record => {
-      if (!record.is_read) {
-        ids[ids.length] = record.id;
-        record.is_read = true;
-      }
-    });
-    this.setState({record});
-    await chatApi.setMsgRead(ids);
+  setMsgStatus = async (from_user_id) => {
+    await chatApi.setMsgRead(from_user_id);
+    this.getMessageListFunc();
   }
 
   async componentWillMount () {
@@ -135,7 +127,7 @@ export default class Main extends React.PureComponent {
           ...messageMap[msgType],
           last_message: receiveData['data'],
           last_message_send_time: receiveData['send_at'],
-          not_read_msg_count: messageMap[msgType]['not_read_msg_count'] + 1,
+          not_read_msg_count: messageMap[msgType] ? messageMap[msgType]['not_read_msg_count'] + 1 : 1,
         };
         this.setState({messageMap: {...messageMap, [msgType]: newMsg}});
         const newRecords = record.records || [];
@@ -179,10 +171,10 @@ export default class Main extends React.PureComponent {
                   to_user_id: data.to_id
                 });
                 ws.send(jsonData);
-                console.log(document.body.scrollHeight, document.body.scrollTop);
+                document.documentElement.scrollTop = document.body.scrollHeight;
                 document.body.scrollTop = document.body.scrollHeight;
               },
-              setRead: () => this.setMsgStatus()
+              setRead: (from_user_id) => this.setMsgStatus(from_user_id)
         }}>
           <TeacherContext.Provider value={{teacherMap, teacherLoading}}>
             <MessageContext.Provider value={{messageMap, messageLoading}}>

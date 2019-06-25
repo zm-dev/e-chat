@@ -12,9 +12,7 @@ export default {
   },
 
   // 设置消息为已读
-  setMsgRead (ids) {
-    return http.put('/record/batch_set_read', {
-      ids: ids
-    })
+  setMsgRead (from_user_id) {
+    return http.put('/record/set_all_read', {from_user_id})
   }
 };

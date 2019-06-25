@@ -27,7 +27,8 @@ const Me = ({ history, me, match, meLoading }) => {
     } else {
       getUser();
     }
-  }, []);
+    // eslint-disable-next-line
+  }, [me]);
   return (
     <Loading info="正在加载数据" loading={userLoading}>
       <div className={styles.me}>
@@ -44,14 +45,14 @@ const Me = ({ history, me, match, meLoading }) => {
         <div className={styles.me_info}>
           <p className={styles.nick_name}>
             {user.nick_name}
-            <span
+            {user.group && <span
               style={{
                 color: color_map['朋辈辅导员'].color,
                 background: color_map['朋辈辅导员'].background,
               }}
             >
               {user.group}
-            </span>
+            </span>}
           </p>
           <p className={styles.company}>{user.company || '暂无工作单位'}</p>
           <p className={styles.profile}>{user.profile || '暂无简介'}</p>

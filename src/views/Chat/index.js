@@ -15,13 +15,12 @@ class Chat extends React.PureComponent {
       chatMessage: '',
       friend: {},
       page: 1,
-      size: 20,
+      size: 10,
     };
   }
 
   componentWillMount(){
     window.addEventListener('scroll', this.handleScroll)
-    document.documentElement.scrollTop = document.body.scrollHeight;
   }
 
   componentWillUnmount(){
@@ -33,10 +32,12 @@ class Chat extends React.PureComponent {
     let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
     const newPage = record.current + 1;
     if (scrollTop === 0) {
+      const currentTop = document.body.scrollHeight;
       if (record.pages >= newPage) {
-        document.documentElement.scrollTop = document.body.offsetHeight;
         await create({ user_id_b: match.params.id, page: newPage, size });
       }
+      document.documentElement.scrollTop = document.body.scrollHeight - currentTop;
+      document.body.scrollTop = document.body.scrollHeight - currentTop;
     } 
   }
 
@@ -46,7 +47,9 @@ class Chat extends React.PureComponent {
     await create({ user_id_b: match.params.id, page, size });
     const { data } = await commonApis.getUser(match.params.id);
     this.setState({ friend: data });
-    setRead();
+    setRead(Number(match.params.id));
+    document.documentElement.scrollTop = document.body.scrollHeight;
+    document.body.scrollTop =  document.body.scrollHeight;
   }
 
   render() {
@@ -100,25 +103,27 @@ class Chat extends React.PureComponent {
                   className="iconfont icon-xiaolian"
                   style={{ color: !showEmoji ? '#6b7372' : '#4facfe' }}
                 />
-                <button onClick={() => {
+                <button onClick={async () => {
                   if (chatMessage.trim().length <= 0) return;
                   const now = new Date();
                   const data = {
                     created_at: now,
                     from_id: me.id,
-                    id: record.records.length + 1,
+                    id: record.records ? record.records.length + 1 : 1,
                     is_read: false,
                     msg: chatMessage,
                     to_id: Number(match.params.id),
                     updated_at: now
                   };
-                  update(data);
+                  await update(data);
                   this.setState({
                     chatMessage: '',
                   });
                   if (showEmoji) this.setState({
                     showEmoji: false,
                   });
+                  document.documentElement.scrollTop = document.documentElement.scrollHeight;
+                  document.body.scrollTop = document.documentElement.scrollHeight;
                 }} type="button">发送</button>
               </div>
             </div>
