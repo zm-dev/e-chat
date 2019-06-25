@@ -58,7 +58,9 @@ const Me = ({ history, me, match, meLoading }) => {
           <p className={styles.profile}>{user.profile || '暂无简介'}</p>
         </div>
         {isMe && <p onClick={() => history.push('/main/home/edit_me')}>修改资料</p>}
-        {isMe && <p onClick={() => history.replace('/signin')}>退出登录</p>}
+        {isMe && <p onClick={() => {
+          history.replace('/signin')
+        }}>退出登录</p>}
       </div>
     </Loading>
   );

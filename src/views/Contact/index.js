@@ -31,7 +31,7 @@ export default ({history}) => {
         {({teacherMap, teacherLoading}) =>
           <Loading loading={teacherLoading} info="正在加载数据">
             <div className={styles.contact_content}>
-              {Object.keys(teacherMap[active]).length > 0 && Object.keys(teacherMap[active]).map(key => <ContactCard onClick={() => history.push(`/main/chat/${key}`)} index={key} color_map={color_map} key={key} data={teacherMap[active][key]} />)}
+              {teacherMap[active] && Object.keys(teacherMap[active]).length > 0 && Object.keys(teacherMap[active]).map(key => <ContactCard onClick={() => history.push(`/main/chat/${key}`)} index={key} color_map={color_map} key={key} data={teacherMap[active][key]} />)}
             </div>
           </Loading>
         }
