@@ -116,7 +116,7 @@ export default class Main extends React.PureComponent {
     await this.getMe();
     const ws = new WebSocket(`ws://${window.location.host}/api/v1/ws_conn`);
     this.setState({ws});
-    ws.onmessage = e => {
+    ws.onmessage = async e => {
       const {messageMap, record, me} = this.state;
       const receiveData = JSON.parse(e.data);
       const msgType = receiveData.send_user_id;
@@ -142,6 +142,8 @@ export default class Main extends React.PureComponent {
           updated_at: now
         });
         this.setState({record: {...record, records: newRecords}});
+        document.documentElement.scrollTop = document.documentElement.scrollHeight;
+        document.body.scrollTop = document.body.scrollHeight;
       }
     }
   }
@@ -162,7 +164,7 @@ export default class Main extends React.PureComponent {
           value={{
             record, 
             create: params => this.getRecordListFunc(params),
-            update: data => {
+            update: async data => {
               const tempRecord = {...record};
                 tempRecord.records.push(data);
                 this.setState({record: tempRecord});
@@ -170,10 +172,11 @@ export default class Main extends React.PureComponent {
                   msg: data.msg,
                   to_user_id: data.to_id
                 });
-                ws.send(jsonData);
-                document.documentElement.scrollTop = document.body.scrollHeight;
+                await ws.send(jsonData);
+                document.documentElement.scrollTop = document.documentElement.scrollHeight;
                 document.body.scrollTop = document.body.scrollHeight;
               },
+              
               setRead: (from_user_id) => this.setMsgStatus(from_user_id)
         }}>
           <TeacherContext.Provider value={{teacherMap, teacherLoading}}>
