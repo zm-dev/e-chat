@@ -14,7 +14,7 @@ export default class List extends React.PureComponent {
         {({messageMap, messageLoading}) =>
          {
            return <Loading loading={messageLoading} info="正在加载数据"><div className={styles.list}>
-            {!messageLoading && Object.keys(messageMap).length > 0 ? (
+            {!messageLoading && messageMap && Object.keys(messageMap).length > 0 ? (
               Object.keys(messageMap).map(key => {
                 return (
                   <div

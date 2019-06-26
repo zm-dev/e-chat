@@ -34,8 +34,8 @@ export default ({history}) => {
           <MeContext.Consumer>
             {({me}) =>
               <Loading loading={teacherLoading} info="正在加载数据">
-                {!teacherLoading && Object.keys(teacherMap[active]).length > 0 ? <div className={styles.contact_content}>
-                  {teacherMap[active] && Object.keys(teacherMap[active]).length > 0 && Object.keys(teacherMap[active]).map(key =>
+                {!teacherLoading && teacherMap[active] && Object.keys(teacherMap[active]).length > 0 ? <div className={styles.contact_content}>
+                  {Object.keys(teacherMap[active]).map(key =>
                     <ContactCard
                       onClick={() => {
                         if (Number(key) === me.id) {
