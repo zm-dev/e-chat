@@ -11,11 +11,10 @@ export default class List extends React.PureComponent {
     const { history } = this.props;
     return (
       <MessageContext.Consumer>
-        {({messageMap, yetReadCount, messageLoading}) =>
+        {({messageMap, messageLoading}) =>
          {
-           console.log('inner', messageMap);
            return <Loading loading={messageLoading} info="正在加载数据"><div className={styles.list}>
-            {!messageLoading || Object.keys(messageMap).length > 0 ? (
+            {!messageLoading && Object.keys(messageMap).length > 0 ? (
               Object.keys(messageMap).map(key => {
                 return (
                   <div

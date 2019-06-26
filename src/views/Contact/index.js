@@ -2,8 +2,10 @@ import * as React from 'react';
 import ContactTab from '@/components/ContactTab';
 import ContactCard from '@/components/ContactCard';
 import styles from './index.module.scss';
-import {TeacherContext} from '../main';
+import {TeacherContext, MeContext} from '../main';
+import EmptyStatus from '@/components/EmptyStatus';
 import Loading from '@/components/Loading';
+import Toast from '@/components/Toast';
 export const color_map = {
   '校友': {
     color: '#209cff',
@@ -29,13 +31,31 @@ export default ({history}) => {
       }} color_map={color_map} />
       <TeacherContext.Consumer>
         {({teacherMap, teacherLoading}) =>
-          <Loading loading={teacherLoading} info="正在加载数据">
-            <div className={styles.contact_content}>
-              {teacherMap[active] && Object.keys(teacherMap[active]).length > 0 && Object.keys(teacherMap[active]).map(key => <ContactCard onClick={() => history.push(`/main/chat/${key}`)} index={key} color_map={color_map} key={key} data={teacherMap[active][key]} />)}
-            </div>
-          </Loading>
+          <MeContext.Consumer>
+            {({me}) =>
+              <Loading loading={teacherLoading} info="正在加载数据">
+                {!teacherLoading && Object.keys(teacherMap[active]).length > 0 ? <div className={styles.contact_content}>
+                  {teacherMap[active] && Object.keys(teacherMap[active]).length > 0 && Object.keys(teacherMap[active]).map(key =>
+                    <ContactCard
+                      onClick={() => {
+                        console.log(key, me.id);
+                        if (Number(key) === me.id) {
+                          Toast.info('不能和自己聊天😯');
+                          return;
+                        }
+                        history.push(`/main/chat/${key}`);
+                      }}
+                      index={key}
+                      color_map={color_map}
+                      key={key}
+                      data={teacherMap[active][key]}
+                  />)}
+                </div> :
+              <EmptyStatus info="当前分类下暂无数据" />}
+            </Loading>
+          }
+          </MeContext.Consumer>
         }
-        
       </TeacherContext.Consumer>
     </div>
   );
