@@ -38,7 +38,6 @@ export default ({history}) => {
                   {teacherMap[active] && Object.keys(teacherMap[active]).length > 0 && Object.keys(teacherMap[active]).map(key =>
                     <ContactCard
                       onClick={() => {
-                        console.log(key, me.id);
                         if (Number(key) === me.id) {
                           Toast.info('不能和自己聊天😯');
                           return;
