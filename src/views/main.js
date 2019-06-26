@@ -32,7 +32,6 @@ export const MessageContext = React.createContext({
 })
 
 export default class Main extends React.PureComponent {
-
   state = {
     me: {},
     meLoading: false,
@@ -112,10 +111,10 @@ export default class Main extends React.PureComponent {
   setMsgStatus = async (from_user_id) => {
     const {messageMap, yetReadCount} = this.state;
     await chatApi.setMsgRead(from_user_id);
-    const updateCount = yetReadCount - messageMap[from_user_id].not_read_msg_count;
+    let updateCount = 0;
+    if (messageMap[from_user_id]) updateCount = yetReadCount - messageMap[from_user_id].not_read_msg_count;
     Object.assign(messageMap, {[from_user_id]: {...messageMap[from_user_id], not_read_msg_count: 0}});
     this.setState({messageMap, yetReadCount: updateCount});
-    console.log(this.state.messageMap);
   }
 
   async componentWillMount () {
@@ -131,9 +130,6 @@ export default class Main extends React.PureComponent {
       if (msgType === -1) {
         this.getTeacherListFunc();
       } else {
-        // if (Object.keys(messageMap[msgType]).length > 0) {
-          
-        // }
         const newMsg = {
           ...messageMap[msgType],
           last_message: receiveData['data'],
@@ -183,11 +179,16 @@ export default class Main extends React.PureComponent {
                   msg: data.msg,
                   to_user_id: data.to_id
                 });
+                messageMap[data.to_id] = {
+                  ...messageMap[data.to_id],
+                  last_message: data.msg,
+                  last_message_send_time: new Date()
+                }
+                this.setState({messageMap});
                 await ws.send(jsonData);
                 document.documentElement.scrollTop = document.documentElement.scrollHeight;
                 document.body.scrollTop = document.body.scrollHeight;
               },
-              
               setRead: (from_user_id) => this.setMsgStatus(from_user_id)
         }}>
           <TeacherContext.Provider value={{teacherMap, teacherLoading}}>

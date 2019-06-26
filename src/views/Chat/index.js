@@ -61,7 +61,7 @@ class Chat extends React.PureComponent {
             <div
               className={styles.return}
               onClick={async () => {
-                await setRead(Number(match.params.id));
+                if (record.records.length > 0) await setRead(Number(match.params.id));
                 history.goBack();
               }}
             >
