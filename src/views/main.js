@@ -26,7 +26,8 @@ export const TeacherContext = React.createContext({
 });
 
 export const MessageContext = React.createContext({
-  messages: {},
+  messageMap: {},
+  yetReadCount: 0,
   loading: false
 })
 
@@ -39,6 +40,7 @@ export default class Main extends React.PureComponent {
     ws: {},
     messageMap: {},
     messageLoading: false,
+    yetReadCount: 0,
     teacherMap: {
       校友: {},
       朋辈辅导员: {},
@@ -48,14 +50,16 @@ export default class Main extends React.PureComponent {
   }
 
   getMessageListFunc = async () => {
+    let {yetReadCount} = this.state;
     this.setState({messageLoading: true});
     try {
       const {data} = await listApis.messageList();
       const tempMap = {};
       data.forEach(item => {
         tempMap[item.user_id] = item;
+        yetReadCount = yetReadCount + item.not_read_msg_count;
       })
-      this.setState({messageMap: tempMap, messageLoading: false});
+      this.setState({messageMap: tempMap, yetReadCount, messageLoading: false});
     } catch (e) {
       this.setState({messageLoading: false});
     }
@@ -106,8 +110,12 @@ export default class Main extends React.PureComponent {
 
   // 设置消息状态
   setMsgStatus = async (from_user_id) => {
+    const {messageMap, yetReadCount} = this.state;
     await chatApi.setMsgRead(from_user_id);
-    this.getMessageListFunc();
+    const updateCount = yetReadCount - messageMap[from_user_id].not_read_msg_count;
+    Object.assign(messageMap, {[from_user_id]: {...messageMap[from_user_id], not_read_msg_count: 0}});
+    this.setState({messageMap, yetReadCount: updateCount});
+    console.log(this.state.messageMap);
   }
 
   async componentWillMount () {
@@ -117,19 +125,22 @@ export default class Main extends React.PureComponent {
     const ws = new WebSocket(`ws://${window.location.host}/api/v1/ws_conn`);
     this.setState({ws});
     ws.onmessage = async e => {
-      const {messageMap, record, me} = this.state;
+      const {messageMap, record, me, yetReadCount} = this.state;
       const receiveData = JSON.parse(e.data);
       const msgType = receiveData.send_user_id;
       if (msgType === -1) {
         this.getTeacherListFunc();
       } else {
+        // if (Object.keys(messageMap[msgType]).length > 0) {
+          
+        // }
         const newMsg = {
           ...messageMap[msgType],
           last_message: receiveData['data'],
           last_message_send_time: receiveData['send_at'],
           not_read_msg_count: messageMap[msgType] ? messageMap[msgType]['not_read_msg_count'] + 1 : 1,
         };
-        this.setState({messageMap: {...messageMap, [msgType]: newMsg}});
+        this.setState({yetReadCount: yetReadCount+1, messageMap: {...messageMap, [msgType]: newMsg}});
         const newRecords = record.records || [];
         const now = new Date();
         newRecords.push({
@@ -149,7 +160,7 @@ export default class Main extends React.PureComponent {
   }
 
   render () {
-    const {record, messageMap, messageLoading, teacherMap, teacherLoading, me, meLoading, ws} = this.state;
+    const {record, messageMap, messageLoading, yetReadCount, teacherMap, teacherLoading, me, meLoading, ws} = this.state;
     const {match} = this.props;
     return (
       <MeContext.Provider
@@ -180,7 +191,7 @@ export default class Main extends React.PureComponent {
               setRead: (from_user_id) => this.setMsgStatus(from_user_id)
         }}>
           <TeacherContext.Provider value={{teacherMap, teacherLoading}}>
-            <MessageContext.Provider value={{messageMap, messageLoading}}>
+            <MessageContext.Provider value={{messageMap, messageLoading, yetReadCount}}>
               <div className={styles.home_wrapper}>
                 <div className={styles.center}>
                   <Router history={history}>

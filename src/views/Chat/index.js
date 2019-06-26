@@ -42,18 +42,17 @@ class Chat extends React.PureComponent {
   }
 
   async componentDidMount() {
-    const { match, create, setRead } = this.props;
+    const { match, create } = this.props;
     const { page, size } = this.state;
     await create({ user_id_b: match.params.id, page, size });
     const { data } = await commonApis.getUser(match.params.id);
     this.setState({ friend: data });
-    setRead(Number(match.params.id));
     document.documentElement.scrollTop = document.body.scrollHeight;
     document.body.scrollTop =  document.body.scrollHeight;
   }
 
   render() {
-    const { history, match, record, update } = this.props;
+    const { history, match, record, update, setRead } = this.props;
     const { showEmoji, friend, chatMessage } = this.state;
     return <MeContext.Consumer>
       {({me}) =>
@@ -61,7 +60,8 @@ class Chat extends React.PureComponent {
           <div className={styles.header}>
             <div
               className={styles.return}
-              onClick={() => {
+              onClick={async () => {
+                await setRead(Number(match.params.id));
                 history.goBack();
               }}
             >

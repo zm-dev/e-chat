@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch, Redirect, NavLink } from 'react-router-dom';
-import { MeContext } from '../main';
+import { MeContext, MessageContext } from '../main';
 import Avatar from '@/components/Avatar';
 import styles from './index.module.scss';
 
@@ -9,6 +9,7 @@ const tab_bottom = [
     icon: 'icon-pinglun',
     title: '消息',
     link: `/chat_list`,
+    hasBadge: true,
     hasHeader: true,
     hasFooter: true,
   },
@@ -16,6 +17,7 @@ const tab_bottom = [
     icon: 'icon-tongxunlu1',
     title: '联系列表',
     link: `/contact_list`,
+    hasBadge: false,
     hasHeader: true,
     hasFooter: true,
   },
@@ -109,7 +111,23 @@ export default class Home extends React.PureComponent {
                   className={styles.tabbar_item}
                   activeClassName={styles.active}
                 >
-                  <i className={['iconfont', tab.icon].join(' ')} />
+                  <i className={['iconfont', tab.icon].join(' ')}>
+                  {tab.hasBadge && <MessageContext.Consumer>
+                    {({yetReadCount}) =>
+                      {
+                        return yetReadCount > 0 && <span style={{
+                            padding: '1px 5px',
+                            position: 'absolute',
+                            background: 'linear-gradient(-20deg, #fc6076 0%, #ff9a44 100%)',
+                            color: '#FFF',
+                            borderRadius: 10,
+                            fontSize: 10
+                          }}>
+                            {yetReadCount <= 99 ? yetReadCount : '99+'}
+                          </span>
+                      }}
+                    </MessageContext.Consumer>}
+                  </i>
                   <p>{tab.title}</p>
                 </NavLink>
               ) : null;
