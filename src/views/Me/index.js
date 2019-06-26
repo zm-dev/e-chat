@@ -35,7 +35,7 @@ const Me = ({ history, me, match, meLoading }) => {
         <div className={styles.header}>
           <span onClick={() => history.goBack()} className="iconfont icon-jiantou" />
           <i
-            style={{ color: user.gender && gender_map[user.gender].color }}
+            style={{ backgroundColor: user.gender && gender_map[user.gender].color }}
             className={`iconfont ${user.gender && gender_map[user.gender].icon}`}
           />
         </div>

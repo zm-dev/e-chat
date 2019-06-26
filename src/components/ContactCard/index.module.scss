@@ -29,6 +29,15 @@
       }
       & > .nick_name {
         font-size: 16px;
+        & > i {
+          color: #fff;
+          width: 16px;
+          height: 16px;
+          text-align: center;
+          line-height: 16px;
+          font-size: 12px;
+          border-radius: 50%;
+        }
       }
       & > .group {
         background: red;

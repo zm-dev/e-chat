@@ -6,8 +6,14 @@
     color: #888;
   }
   > i {
-    font-size: 22px;
+    font-size: 18px;
     margin-left: 10px;
-    color: #eee;
+    color: #fff;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    border-radius: 50%;
+    font-weight: bold;
   }
 }
