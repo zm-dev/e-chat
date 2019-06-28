@@ -1,3 +1,15 @@
+
+@mixin lamp-clamp($line) {
+  /*postcss-pxtransform rn eject enable*/
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: $line;
+  /* autoprefixer: ignore next */
+  -webkit-box-orient: vertical;
+  /*postcss-pxtransform rn eject disable*/
+}
+
 .contact_card {
   padding: 20px 10px;
   border-radius: 5px;
@@ -16,6 +28,7 @@
     & > .info_avatar {
       width: 66px;
       height: 66px;
+      flex-shrink: 0;
     }
     & > .info_text {
       flex-grow: 1;
@@ -47,9 +60,13 @@
         display: inline-block;
         border-top-left-radius: 0;
       }
-      & > .profile {
+      .profile {
         color: #aaa;
         margin: 5px 0;
+        flex-grow: 1;
+        @include lamp-clamp(1);
+        word-wrap:break-word;
+        word-break: break-word;
       }
     }
   }

@@ -15,7 +15,7 @@ export default ({data, color_map, index, onClick = () => {}}) => {
           <p className={styles.profile}>{data.profile || '无'}</p>
           <p style={{color: color_map[data.group].color, background: color_map[data.group].background}} className={styles.group}>{data.company || '无'}</p>
         </div>
-        <span style={{color: data.is_online ? color_map[data.group].color : '#aaa'}}>{data.is_online ? '在线' : '离线'}</span>
+        <span style={{color: data.is_online ? color_map[data.group].color : '#aaa', flexShrink: 0}}>{data.is_online ? '在线' : '离线'}</span>
       </div>
     </div>
   )
